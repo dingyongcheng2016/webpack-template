@@ -2,8 +2,34 @@
   "name": "webpack-template",
   "version": "1.0.0",
   "description": "webpack配置模板",
-  "main": "./src/index.html",
+  "main": "./src/index.js",
   "repository": "https://github.com/dingyongcheng2016/webpack-template.git",
   "author": "dingyongcheng <bugcheng@163.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "webpack",
+    "webpack 5",
+    "webpack boilerplate",
+    "webpack template"
+  ],
+  "scripts": {
+    "start": "cross-env NODE-ENV=development webpack serve --config config/webpack.dev.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
+    "less-loader": "^10.2.0",
+    "postcss-loader": "^6.2.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4",
+    "webpack-merge": "^5.8.0"
+  }
 }

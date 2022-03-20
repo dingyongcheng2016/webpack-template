@@ -1,0 +1,9 @@
+{
+  "name": "webpack-template",
+  "version": "1.0.0",
+  "description": "webpack配置模板",
+  "main": "./src/index.html",
+  "repository": "https://github.com/dingyongcheng2016/webpack-template.git",
+  "author": "dingyongcheng <bugcheng@163.com>",
+  "license": "MIT"
+}

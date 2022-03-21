@@ -2,6 +2,9 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 分离样式到一个文件内
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+// 费时分析
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const smp = new SpeedMeasurePlugin();
 
 const paths = require('./paths');
 
@@ -47,13 +50,13 @@ const config = merge(common, {
       }),
       
     ],
-    // optimization: {
-    //     minimize: true,
-    //     minimizer: [new CssMinimizerPlugin(), '...'],
-    //     runtimeChunk: {
-    //       name: 'runtime'
-    //     }
-    // },
+    optimization: {
+        minimize: true,
+        minimizer: [new CssMinimizerPlugin(), '...'],
+        runtimeChunk: {
+          name: 'runtime'
+        }
+    },
     performance: {
       hints: false,
       maxEntrypointSize: 512000,
@@ -66,5 +69,6 @@ const config = merge(common, {
 module.exports = (env, argv) => {
   console.log('argv.mode=',argv.mode) // 打印 mode(模式) 值
   // 这里可以通过不同的模式修改 config 配置
+  // return smp.wrap(config);
   return config;
 }

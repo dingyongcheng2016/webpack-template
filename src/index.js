@@ -1,3 +1,4 @@
+import _ from 'lodash';
 // Test import of a JavaScript module
 import { example, Author, MyClass } from '@/js/example'
 
@@ -48,3 +49,6 @@ getData().then(res=>{
 //  装饰器
 const mycall = new MyClass();
 mycall.logger();
+
+// 不解析lodash
+_.delay(5000);

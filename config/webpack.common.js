@@ -15,18 +15,30 @@ module.exports = {
     },
     // Determine how modules within the project are treated
     module: {
+        // 优化
+        // 不需要解析依赖的第三方大型类库等，可以通过这个字段进行配置，以提高构建速度
+        noParse: /jquery|lodash/, 
         rules: [
             // JavaScript: Use Babel to transpile JavaScript files
             {
                 test: /\.js$/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env'
-                        ]
+                include: paths.src, // 优化
+                exclude: /node_modules/, // 优化
+                use: [
+                    // {
+                    //    loader: 'thread-loader', // 开启多进程打包
+                    //    options: {
+                    //        worker: 3,  // 优化
+                    //     }
+                    // },
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            cacheDirectory: true // 启用缓存 优化
+                          }
                     }
-                }]
+                    
+                ]
             },
             // file-loader 和 url-loader适用于图片、字体等文件
             // {
@@ -72,15 +84,28 @@ module.exports = {
     
         ]
     },
+    // 优化
     resolve: {
         //告诉 webpack 解析模块时应该搜索的目录, paths.src目录优先于 node_modules/ 搜索
         modules: [paths.src, 'node_modules'],
         extensions: ['.js', '.jsx', '.json'],
         alias: {
+            '~':  paths.src,
             '@': paths.src,
             assets: paths.public
-        }
+        },
     },
+
+    //自定义的 Loader 路径配置
+    // resolveLoader: {
+    //     modules: ['node_modules',resolve('loader')] 
+    // },
+
+    //从输出的 bundle 中排除依赖
+    // externals: {
+    //     jquery: 'jQuery',
+    // },
+
     // Customize the webpack build process
     plugins: [
         // Removes/cleans build folders and unused assets when rebuilding

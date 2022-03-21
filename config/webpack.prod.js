@@ -1,10 +1,17 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 分离样式到一个文件内
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+// cssnano是基于postcss的一款功能强大的插件包，它集成了近30个插件，
+// 只需要执行一个命令，就可以对我们的css做多方面不同类型的优化，比如：
+// 删除空格和最后一个分号,删除注释,优化字体权重,丢弃重复的样式规则,优化calc(), 压缩选择器, 减少手写属性, 合并规则
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); // 这个插件使用 cssnano 优化和压缩 CSS， optimize-css-assets-webpack-plugin 在webpack5中已不在友好支持
 // 费时分析
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 const smp = new SpeedMeasurePlugin();
+// 观的看到打包结果中，文件的体积大小、各模块依赖关系、文件是够重复等问题，极大的方便我们在进行项目优化的时候，进行问题诊断
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// 压缩js
+const TerserPlugin = require('terser-webpack-plugin');
 
 const paths = require('./paths');
 
@@ -48,11 +55,19 @@ const config = merge(common, {
         filename: 'styles/[name].[contenthash].css',
         chunkFilename: '[id].css',
       }),
-      
+
+      // new BundleAnalyzerPlugin({
+      //   // analyzerMode: 'disabled',  // 不启动展示打包报告的http服务器
+      //   // generateStatsFile: true, // 是否生成stats.json文件
+      // }),
     ],
     optimization: {
         minimize: true,
-        minimizer: [new CssMinimizerPlugin(), '...'],
+        minimizer: [
+          new CssMinimizerPlugin(), 
+          new TerserPlugin({}),
+          '...', // 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
+        ],
         runtimeChunk: {
           name: 'runtime'
         }

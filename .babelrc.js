@@ -5,6 +5,11 @@ module.exports = {
       [
         "@babel/preset-env",
         {
+         // webpack 默认支持，需要在 .bablerc 里面设置 model：false，即可在生产环境下默认开启
+         // Tree-shaking 作用是剔除没有使用的代码，以降低包的体积
+         // 利用 ES Module 可以进行静态分析的特点来检测模块内容的导出、导入以及被使用的情况，保留 Live Code
+         // 消除不会被执行和没有副作用（Side Effect） 的 Dead Code，即 DCE 过程
+          modules: false, 
           // useBuiltIns: false 默认值，无视浏览器兼容配置，引入所有 polyfill
           // useBuiltIns: entry 根据配置的浏览器兼容，引入浏览器不兼容的 polyfill
           // useBuiltIns: usage 会根据配置的浏览器兼容，以及你代码中用到的 API 来进行 polyfill，实现了按需添加

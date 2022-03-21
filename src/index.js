@@ -21,7 +21,7 @@ imageBackground.classList.add('image')
 
 // Test a public folder asset
 const imagePublic = document.createElement('img')
-imagePublic.src = '/assets/example.png'
+imagePublic.src = '/assets/image/example.png'
 
 const app = document.querySelector('#root')
 app.append(logo, heading, imageBackground, imagePublic)
@@ -52,3 +52,20 @@ mycall.logger();
 
 // 不解析lodash
 _.delay(5000);
+
+
+// 代码懒加载
+// 按需加载
+console.log('imageBackground', imageBackground)
+imageBackground.addEventListener('click', () => {
+    console.log('我出发了')
+    import('./js/desc').then(({ default: element }) => {
+      console.log(element)
+      document.body.appendChild(element)
+    })
+  })
+
+//这会生成 <link rel="prefetch" href="login-modal-chunk.js"> 并追加到页面头部，指示着浏览器在闲置时间预取 login-modal-chunk.js 文件。
+// import(/* webpackPrefetch: true */ './path/to/LoginModal.js');
+// 预先获取
+// import(/* webpackPreload: true */ 'ChartingLibrary');

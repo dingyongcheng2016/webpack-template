@@ -70,6 +70,53 @@ const config = merge(common, {
         ],
         runtimeChunk: {
           name: 'runtime'
+        },
+        splitChunks: {
+          chunks: 'async', // 有效值为 `all`，`async` 和 `initial`
+          minSize: 20000, // 生成 chunk 的最小体积（≈ 20kb)
+          minRemainingSize: 0, // 确保拆分后剩余的最小 chunk 体积超过限制来避免大小为零的模块
+          minChunks: 1, // 拆分前必须共享模块的最小 chunks 数。
+          maxAsyncRequests: 30, // 最大的按需(异步)加载次数
+          maxInitialRequests: 30, // 打包后的入口文件加载时，还能同时加载js文件的数量（包括入口文件）
+          enforceSizeThreshold: 50000,
+          cacheGroups: { // 配置提取模块的方案
+            // defaultVendors: {
+            //   test: /[\/]node_modules[\/]/,
+            //   priority: -10,
+            //   reuseExistingChunk: true,
+            // },
+            // default: {
+            //   minChunks: 2,
+            //   priority: -20,
+            //   reuseExistingChunk: true,
+            // },
+            default: false,
+            styles: {
+              name: 'styles',
+              test: /\.(s?css|less|sass)$/,
+              chunks: 'all',
+              enforce: true,
+              priority: 10,
+            },
+            common: {
+              name: 'chunk-common',
+              chunks: 'all',
+              minChunks: 2,
+              maxInitialRequests: 5,
+              minSize: 0,
+              priority: 1,
+              enforce: true,
+              reuseExistingChunk: true,
+            },
+            vendors: {
+              name: 'chunk-vendors',
+              test: /[\\/]node_modules[\\/]/,
+              chunks: 'all',
+              priority: 2,
+              enforce: true,
+              reuseExistingChunk: true,
+            },
+          },
         }
     },
     performance: {
@@ -87,3 +134,5 @@ module.exports = (env, argv) => {
   // return smp.wrap(config);
   return config;
 }
+
+// 代码懒加载 import().then()

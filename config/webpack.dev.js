@@ -11,7 +11,7 @@ module.exports = merge(common, {
         rules: [
           // Styles: Inject CSS into the head with source maps
           {
-            test: /\.(le|c)ss$/,
+            test: /\.(sc|sa)ss$/,
             use: [
               'style-loader',
               {
@@ -19,7 +19,7 @@ module.exports = merge(common, {
                 options: { sourceMap: true, importLoaders: 1, modules: false },
               },
               { loader: 'postcss-loader', options: { sourceMap: true } },
-              { loader: 'less-loader', options: { sourceMap: true } },
+              { loader: 'sass-loader', options: { sourceMap: true } },
             ],
           },
         ],

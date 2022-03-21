@@ -1,5 +1,5 @@
 // Test import of a JavaScript module
-import { example, Author } from '@/js/example'
+import { example, Author, MyClass } from '@/js/example'
 
 // Test import of an asset
 import webpackLogo from '@/images/webpack-logo.svg'
@@ -28,3 +28,23 @@ app.append(logo, heading, imageBackground, imagePublic)
 // 类的调用
 const author = new Author();
 author.info();
+
+
+//  promise
+
+function getData(id=0){
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            resolve(id)
+        }, 1000)
+    })
+}
+
+getData().then(res=>{
+    console.log('res', res)
+})
+
+
+//  装饰器
+const mycall = new MyClass();
+mycall.logger();

@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["./src/*"]
+      },
+      "allowJs": true
+    }
+}
+
+// jsconfig.json文件指定根文件和JavaScript语言服务提供的功能选项。

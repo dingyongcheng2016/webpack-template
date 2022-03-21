@@ -4,7 +4,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: [paths.src + '/index.js'],
+    // babel-loader只会将 ES6/7/8+语法转换为ES5语法，但是对新api并不会转换 例如(promise、Generator、Set、Maps、Proxy等
+    // 对新转换api, 借助babel-polyfill
+    // entry: ["@babel/polyfill",path.resolve(__dirname,'../src/index.js')],  
+    entry: [paths.src + '/index.js'],  
     output: {
         path: paths.build,
         filename: '[name][hash8].js',

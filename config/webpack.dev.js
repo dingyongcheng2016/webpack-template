@@ -1,7 +1,7 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 
-module.exports = merge(common, {
+const config = merge(common, {
     mode: 'development',
     //本地开发首次打包慢点没关系，因为 eval 缓存的原因，rebuild 会很快
     // 开发中，我们每行代码不会写的太长，只需要定位到行就行，所以加上 cheap
@@ -33,3 +33,9 @@ module.exports = merge(common, {
         port: 8080,
     },
 })
+
+module.exports = (env, argv) => {
+  console.log('argv.mode=',argv.mode) // 打印 mode(模式) 值
+  // 这里可以通过不同的模式修改 config 配置
+  return config;
+}

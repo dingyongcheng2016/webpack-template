@@ -25,16 +25,48 @@ module.exports = {
                     }
                 }]
             },
+            // file-loader 和 url-loader适用于图片、字体等文件
+            // {
+            //     test: /\.(jpe?g|png|gif)$/i,
+            //     use:[
+            //       {
+            //         loader: 'url-loader',
+            //         options: {
+            //           name: '[name][hash:8].[ext]',
+            //           // 文件小于 50k 会转换为 base64，大于则拷贝文件
+            //           limit: 50 * 1024
+            //         }
+            //       }
+            //     ]
+            // },
+
+            // webpack5 新增资源模块(asset module)，允许使用资源文件（字体，图标等）而无需配置额外的 loader。
+            // asset/resource 将资源分割为单独的文件，并导出 url，类似之前的 file-loader 的功能.
+            // asset/inline 将资源导出为 dataUrl 的形式，类似之前的 url-loader 的小于 limit 参数时功能.
+            // asset/source 将资源导出为源码（source code）. 类似的 raw-loader 功能.
+            // asset 会根据文件大小来选择使用哪种类型，当文件小于 8 KB（默认） 的时候会使用 asset/inline，否则会使用 asset/resource
             // Images: Copy image files to build folder
             { 
                 test: /\.(?:ico|gif|png|jpg|jpeg)$/i, 
-                type: 'asset/resource' 
+                type: 'asset/resource',
+                generator: {
+                    // 输出文件位置以及文件名
+                    // [ext] 自带 "." 这个与 url-loader 配置不同
+                    filename: "[name][hash:8][ext]"
+                },
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 50 * 1024 //超过50kb不转 base64
+                    }
+                }
             },
             // Fonts and SVGs: Inline files
             { 
                 test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
-                type: 'asset/inline' 
+                type: 'asset/inline'
             },
+            
+    
         ]
     },
     resolve: {

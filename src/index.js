@@ -1,5 +1,5 @@
 // Test import of a JavaScript module
-import { example } from '@/js/example'
+import { example, Author } from '@/js/example'
 
 // Test import of an asset
 import webpackLogo from '@/images/webpack-logo.svg'
@@ -24,3 +24,7 @@ imagePublic.src = '/assets/example.png'
 
 const app = document.querySelector('#root')
 app.append(logo, heading, imageBackground, imagePublic)
+
+// 类的调用
+const author = new Author();
+author.info();

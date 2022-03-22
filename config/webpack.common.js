@@ -3,6 +3,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// 引入vconsole
+const MobileVconsoleWebpackPlugin = require('mobile-vconsole-webpack-plugin');
+
 module.exports = {
     // babel-loader只会将 ES6/7/8+语法转换为ES5语法，但是对新api并不会转换 例如(promise、Generator、Set、Maps、Proxy等
     // 对新转换api, 借助babel-polyfill
@@ -130,6 +133,9 @@ module.exports = {
             favicon: paths.public + '/favicon.ico',
             template: paths.public + '/index.html',
             filename: 'index.html',
+        }),
+        new MobileVconsoleWebpackPlugin({
+            enable: process.env.NODE_ENV != 'production' ? true : false
         })
     ]
 
